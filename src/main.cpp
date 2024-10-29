@@ -1,5 +1,7 @@
 #include "main.h"
 #include "lemlib/api.hpp" // IWYU pragma: keep
+#include "robodash/api.h"
+#include "autos.h"
 
 pros::MotorGroup left_motors({-20, -19, -18}); 
 pros::MotorGroup right_motors({11, 12, 13}); 
@@ -57,22 +59,13 @@ lemlib::Chassis chassis(drivetrain, // drivetrain settings
                         sensors // odometry sensors
 );
 
-/**
- * A callback function for LLEMU's center button.
- *
- * When this callback is fired, it will toggle line 2 of the LCD text between
- * "I was pressed!" and nothing.
- */
-void on_center_button() {
-	static bool pressed = false;
-	pressed = !pressed;
-	if (pressed) {
-		pros::lcd::set_text(2, "I was pressed!");
-	} else {
-		pros::lcd::clear_line(2);
-	}
-}
+rd::Selector selector({
+   {"Left Red", &our_autonomous},
+   //{"Auton 1", &simple_auton},
+   //{"Skills Run", &skills}
+});
 
+rd::Console console;
 /**
  * Runs initialization code. This occurs as soon as the program is started.
  *
@@ -80,11 +73,9 @@ void on_center_button() {
  * to keep execution time for this mode under a few seconds.
  */
 void initialize() {
-	pros::lcd::initialize();
-	pros::lcd::set_text(1, "Hello PROS User!");
-
-	pros::lcd::register_btn1_cb(on_center_button);
-}
+   console.println("Initializing robot...");
+   // Robot stuff would happen...
+  }
 
 /**
  * Runs while the robot is in the disabled state of Field Management System or
@@ -116,6 +107,11 @@ void competition_initialize() {}
  * from where it left off.
  */
 void autonomous() {
+   console.println("Running auton...");
+   selector.run_auton();
+}
+
+void our_autonomous() {
 	// set position to x:0, y:0, heading:0
   chassis.setPose(0, 0, 0);
   wall.set_value(true);

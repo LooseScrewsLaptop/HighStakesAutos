@@ -75,6 +75,7 @@ rd::Console console;
 void initialize() {
    console.println("Initializing robot...");
    // Robot stuff would happen...
+   chassis.initialize();
   }
 
 /**
@@ -125,6 +126,15 @@ void our_autonomous() {
   pros::delay(350);
   chain.move(0);
   
+  // TESTING
+  // IF 
+  // GIT 
+  // STILL 
+  // WORKS
+  // ON 
+  // DIFF 
+  // COMPUTER
+
   chassis.moveToPoint(-2, -12, 4000, {.forwards = false, .maxSpeed = 40},false);
   
 

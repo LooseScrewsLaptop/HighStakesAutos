@@ -61,6 +61,7 @@ lemlib::Chassis chassis(drivetrain, // drivetrain settings
 
 rd::Selector selector({
    {"Left Red", &our_autonomous},
+   {"Skills", &our_skills}
    //{"Auton 1", &simple_auton},
    //{"Skills Run", &skills}
 });
@@ -75,7 +76,7 @@ rd::Console console;
 void initialize() {
    console.println("Initializing robot...");
    // Robot stuff would happen...
-   chassis.initialize();
+  chassis.calibrate();
   }
 
 /**
@@ -113,6 +114,7 @@ void autonomous() {
 }
 
 void our_autonomous() {
+  //chassis.calibrate();
 	// set position to x:0, y:0, heading:0
   chassis.setPose(0, 0, 0);
   wall.set_value(true);
@@ -120,22 +122,13 @@ void our_autonomous() {
   wall.set_value(false);
   jaw.set_value(true);
 
-  chassis.moveToPoint(-2, -12, 4000, {.forwards = false, .maxSpeed = 40},false);
+  //chassis.moveToPoint(-2, -12, 4000, {.forwards = false, .maxSpeed = 40},false);
 
   chain.move(127);
-  pros::delay(350);
+  pros::delay(500);
   chain.move(0);
-  
-  // TESTING
-  // IF 
-  // GIT 
-  // STILL 
-  // WORKS
-  // ON 
-  // DIFF 
-  // COMPUTER
 
-  chassis.moveToPoint(-2, -12, 4000, {.forwards = false, .maxSpeed = 40},false);
+  chassis.moveToPoint(5, 30, 100, {.forwards = false, .maxSpeed = 40},false);
   
 
 /*
@@ -184,6 +177,55 @@ void our_autonomous() {
     //chassis.moveToPoint(-38, -33, 4000, {.forwards = false, .maxSpeed = 50},false);
 */
 	
+}
+void our_skills(){
+  //chassis.calibrate();
+  chassis.setPose(0, 0, 0);
+  wall.set_value(true);
+  pros::delay(300);
+  chain.move(127);
+  pros::delay(350);
+  chain.move(0);
+  wall.set_value(false);
+  jaw.set_value(true);
+  pros::delay(100);
+
+
+
+  chassis.moveToPoint(0, 10, 5000, { .maxSpeed = 40},false);
+
+  chassis.moveToPoint(32, 13, 5000, {.forwards = false, .maxSpeed = 40},false);
+  mogo.set_value(true);
+  intake.move(-127);
+  chain.move(127);
+  chassis.moveToPoint(30, 30, 5000, { .maxSpeed = 40},false);
+  chassis.moveToPoint(50, 30, 5000, { .maxSpeed = 40},false);
+  //chassis.moveToPoint(30, 30, 5000, { .maxSpeed = 40},false);
+  //chassis.moveToPoint(60, 13, 5000, { .maxSpeed = 40},false);
+  chassis.moveToPoint(50, 11, 5000, { .maxSpeed = 40},false);
+  chassis.moveToPoint(45, 14, 5000, { .maxSpeed = 40},false);
+  chassis.moveToPoint(140, -40, 5000, { .forwards =false, .maxSpeed = 40},false);
+
+  //chassis.moveToPoint(65, 3, 5000, {.forwards = false, .maxSpeed = 40},false);
+  mogo.set_value(false);
+  //OTHER SIDE
+
+  chassis.moveToPoint(0, 0, 5000, {.forwards = false, .maxSpeed = 40},false);
+  chassis.moveToPoint(-32, 13, 5000, {.forwards = false, .maxSpeed = 40},false);
+  mogo.set_value(true);
+  intake.move(-127);
+  chain.move(127);
+  chassis.moveToPoint(-30, 30, 5000, { .maxSpeed = 40},false);
+  chassis.moveToPoint(-50, 34, 5000, { .maxSpeed = 40},false);
+  chassis.moveToPoint(-50, 11, 5000, { .maxSpeed = 40},false);
+  chassis.moveToPoint(-45, 14, 5000, { .maxSpeed = 40},false);
+  chassis.moveToPoint(-140, -90, 5000, { .forwards =false, .maxSpeed = 40},false);
+
+  //chassis.moveToPoint(65, 3, 5000, {.forwards = false, .maxSpeed = 40},false);
+  mogo.set_value(false);
+
+  //chassis.moveToPoint(60, 7, 5000, {.forwards = false, .maxSpeed = 40},false);
+
 }
 
 /**

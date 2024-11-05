@@ -61,7 +61,8 @@ lemlib::Chassis chassis(drivetrain, // drivetrain settings
 
 rd::Selector selector({
    {"Left Red", &our_autonomous},
-   {"Skills", &our_skills}
+   {"Skills", &our_skills},
+   {"RedRight", &our_redRight}
    //{"Auton 1", &simple_auton},
    //{"Skills Run", &skills}
 });
@@ -227,6 +228,45 @@ void our_skills(){
   mogo.set_value(false);
 
   //chassis.moveToPoint(60, 7, 5000, {.forwards = false, .maxSpeed = 40},false);
+
+}
+void our_redRight(){
+  chassis.setPose(0, 0, 0);
+  wall.set_value(true);
+  pros::delay(300);
+  wall.set_value(false);
+  jaw.set_value(true);
+
+  chassis.moveToPoint(-6, -30, 5000, { .forwards = false, .maxSpeed = 40},false);
+  //pros::delay(100);
+  //chassis.moveToPoint(9, -41, 5000, { .forwards = false, .maxSpeed = 65},false);
+  mogo.set_value(true);
+  chain.move(127);
+  pros::delay(300);
+  chain.move(0);
+
+  chassis.moveToPoint(-26, -35, 5000, { .maxSpeed = 65},false);
+
+  intake.move(-127);
+  pros::delay(1000);
+  intake.move(0);
+  chain.move(127);
+  pros::delay(1000);
+  chain.move(0);
+  mogo.set_value(false);
+
+  chassis.moveToPoint(-26, -45, 5000, { .forwards = false, .maxSpeed = 65},false);
+  //intake.move(-127);
+  //pros::delay(300);
+  //intake.move(0);
+  //chain.move(-127);
+  //pros::delay(300);
+  //chain.move(0);
+
+  //intake.move(-127);
+  //pros::delay(2000);
+  //intake.move(0);
+  //chassis.moveToPoint(15, 41, 5000, {.forwards = false, .maxSpeed = 40},false);
 
 }
 

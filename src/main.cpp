@@ -62,7 +62,8 @@ lemlib::Chassis chassis(drivetrain, // drivetrain settings
 rd::Selector selector({
    {"Left Red", &our_autonomous},
    {"Skills", &our_skills},
-   {"RedRight", &our_redRight}
+   {"RedRight", &our_redRight},
+   {"soloAWP", &our_soloAWP}
    //{"Auton 1", &simple_auton},
    //{"Skills Run", &skills}
 });
@@ -195,7 +196,7 @@ void our_skills(){
 
   chassis.moveToPoint(0, 10, 5000, { .maxSpeed = 40},false);
 
-  chassis.moveToPoint(32, 13, 5000, {.forwards = false, .maxSpeed = 40},false);
+  chassis.moveToPoint(29, 13, 5000, {.forwards = false, .maxSpeed = 40},false);
   mogo.set_value(true);
   intake.move(-127);
   chain.move(127);
@@ -222,10 +223,11 @@ void our_skills(){
   chassis.moveToPoint(-50, 11, 5000, { .maxSpeed = 40},false);
   chassis.moveToPoint(-45, 14, 5000, { .maxSpeed = 40},false);
   chassis.moveToPoint(-140, -90, 5000, { .forwards =false, .maxSpeed = 40},false);
+  mogo.set_value(false);
   chassis.moveToPoint(-45, 14, 5000, { .maxSpeed = 40},false);
 
   //chassis.moveToPoint(65, 3, 5000, {.forwards = false, .maxSpeed = 40},false);
-  mogo.set_value(false);
+ 
 
   //chassis.moveToPoint(60, 7, 5000, {.forwards = false, .maxSpeed = 40},false);
 
@@ -269,6 +271,37 @@ void our_redRight(){
   //chassis.moveToPoint(15, 41, 5000, {.forwards = false, .maxSpeed = 40},false);
 
 }
+void our_soloAWP(){
+  chassis.setPose(0, 0, 0);
+  chassis.moveToPoint(0, -19, 5000, { .forwards = false, .maxSpeed = 65},false);
+  chassis.turnToHeading( 90.0,  1000);
+  chassis.moveToPoint(-5, -21, 5000, { .forwards = false, .maxSpeed = 65},false);
+  wall.set_value(true);
+  chain.move(127);
+  pros::delay(500);
+  wall.set_value(false);
+  jaw.set_value(true);
+  chain.move(0);
+  chassis.moveToPoint(5, -19, 5000, { .forwards = true, .maxSpeed = 65},false);
+  chassis.moveToPoint(20, 5, 5000, { .forwards = false, .maxSpeed = 65},false);
+  chassis.moveToPoint(30, 7, 5000, { .forwards = false, .maxSpeed = 40},false);
+  mogo.set_value(true);
+  intake.move(-127);
+  pros::delay(300);
+  chain.move(127);
+  pros::delay(300);
+  chassis.moveToPoint(29, 20, 5000, { .forwards = true, .maxSpeed = 65},false);
+  pros::delay(500);
+  chassis.moveToPoint(40, 23, 5000, { .forwards = true, .maxSpeed = 65},false);
+  pros::delay(500);
+  chassis.turnToHeading(45, 1000);
+  pros::delay(750);
+  chassis.moveToPoint(30, -20, 5000, { .forwards = true, .maxSpeed = 65},false);
+  chain.move(0);
+  intake.move(0);
+}
+
+
 
 /**
  * Runs the operator control code. This function will be started in its own task
@@ -321,7 +354,7 @@ void opcontrol() {
 		chain.move(127); 
 		intake.move(-127);
 		if (controller.get_digital(pros::E_CONTROLLER_DIGITAL_R1)){
-			chain.move(30); 
+			chain.move(45); 
 			intake.move(-127);
 		}
 		}

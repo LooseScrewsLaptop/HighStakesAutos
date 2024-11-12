@@ -195,33 +195,36 @@ void our_skills(){
 
 
 
-  chassis.moveToPoint(0, 15, 5000, { .maxSpeed = 40},false);
+  chassis.moveToPoint(0, 20, 5000, { .maxSpeed = 40},false);
 
-  chassis.moveToPoint(29, 13, 5000, {.forwards = false, .maxSpeed = 40},false);
+  //chassis.turnToHeading(-90, 1000);
+  chassis.moveToPoint(24, 16, 5000, {.forwards = false, .maxSpeed = 40},false);
   mogo.set_value(true);
   intake.move(-127);
   chain.move(127);
   chassis.moveToPoint(30, 30, 5000, { .maxSpeed = 40},false);
   chassis.turnToHeading(90, 1000);
-  chassis.moveToPoint(47, 33, 5000, { .maxSpeed = 40},false);
+  chassis.moveToPoint(47, 35, 5000, { .maxSpeed = 40},false);
   //chassis.moveToPoint(30, 30, 5000, { .maxSpeed = 40},false);
   //chassis.moveToPoint(60, 13, 5000, { .maxSpeed = 40},false);
+  pros::delay(100);
   chassis.moveToPoint(50, 11, 5000, { .maxSpeed = 40},false);
   chassis.moveToPoint(45, 14, 5000, { .maxSpeed = 40},false);
   chassis.moveToPoint(140, -40, 5000, { .forwards =false, .maxSpeed = 40},false);
   mogo.set_value(false);
-  chassis.moveToPoint(30, 30, 5000, { .maxSpeed = 40},false);
+  chain.move(0);
+  chassis.moveToPoint(35, 35, 5000, { .maxSpeed = 40},false);
   //chassis.moveToPoint(65, 3, 5000, {.forwards = false, .maxSpeed = 40},false);
   
   //OTHER SIDE
 
   chassis.moveToPoint(0, 0, 5000, {.forwards = false, .maxSpeed = 40},false);
-  chassis.moveToPoint(-32, 14, 5000, {.forwards = false, .maxSpeed = 40},false);
+  chassis.moveToPoint(-19,3, 5000, {.forwards = false, .maxSpeed = 40},false);
   mogo.set_value(true);
   intake.move(-127);
   chain.move(127);
-  chassis.moveToPoint(-30, 30, 5000, { .maxSpeed = 40},false);
-  chassis.turnToHeading(-90.0, 1000);
+  chassis.moveToPoint(-21, 30, 5000, { .maxSpeed = 40},false);
+  chassis.turnToHeading(-90.0, 5000);
   chassis.moveToPoint(-47, 32, 5000, { .maxSpeed = 40},false);
   chassis.moveToPoint(-50, 11, 5000, { .maxSpeed = 40},false);
   chassis.moveToPoint(-45, 14, 5000, { .maxSpeed = 40},false);

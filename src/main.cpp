@@ -283,7 +283,7 @@ void our_AWPR(){
   chassis.moveToPoint(0, -19, 5000, { .forwards = false, .maxSpeed = 65},false);
   chassis.turnToHeading( 90.0,  1000);
   //Turns and moves to the alliance stake
-  chassis.moveToPoint(-4, -22, 5000, { .forwards = false, .maxSpeed = 65},false);
+  chassis.moveToPoint(-5.5, -16, 5000, { .forwards = false, .maxSpeed = 65},false);
   //scores
   wall.set_value(true);
   chain.move(127);
@@ -293,9 +293,11 @@ void our_AWPR(){
   chain.move(0);
   //Movements to go and grab the Mogo
   //
-  chassis.moveToPoint(5, -19, 5000, { .forwards = true, .maxSpeed = 65},false);
-  chassis.moveToPoint(20, 5, 5000, { .forwards = false, .maxSpeed = 65},false);
-  chassis.moveToPoint(35, 7, 5000, { .forwards = false, .maxSpeed = 40},false);
+  chassis.moveToPoint(5, -17, 5000, { .forwards = true, .maxSpeed = 65},false);
+  //mogo grabbing
+  chassis.moveToPoint(20, 7, 5000, { .forwards = false, .maxSpeed = 65},false);
+  //disc picking
+  chassis.moveToPoint(35, 14, 5000, { .forwards = false, .maxSpeed = 40},false);
   mogo.set_value(true);
   
   //starts chain and intake
@@ -303,18 +305,21 @@ void our_AWPR(){
   pros::delay(300);
   chain.move(127);
   pros::delay(300);
-//ring by mogo
-  chassis.moveToPoint(29, 20, 5000, { .forwards = true, .maxSpeed = 65},false);
+//ring by wall
+  chassis.moveToPoint(30, 25, 5000, { .forwards = true, .maxSpeed = 65},false);
   pros::delay(500);
+  
   //going to four corners stack
-  chassis.moveToPoint(41, 23, 5000, { .forwards = true, .maxSpeed = 65},false);
+  chassis.moveToPoint(40, 28, 5000, { .forwards = true, .maxSpeed = 55},false);
+  chassis.moveToPoint(43, 32, 5000, { .forwards = true, .maxSpeed = 55},false);
   pros::delay(500);
   chassis.turnToHeading(45, 1000);
-  pros::delay(750);
-  //touches ladder ;) 
-  chassis.moveToPoint(35, -20, 5000, { .forwards = false, .maxSpeed = 65},false);
-  chain.move(0);
-  intake.move(0);
+  pros::delay(500);
+
+  //touches ladder  
+  chassis.moveToPoint(13, -50, 5000, { .forwards = false, .maxSpeed = 50},false);
+  //chain.move(0);
+  //intake.move(0);
 }
 void our_AWPB(){
   chassis.setPose(0, 0, 0);
@@ -328,8 +333,9 @@ void our_AWPB(){
   jaw.set_value(true);
   chain.move(0);
   chassis.moveToPoint(-5, -19, 5000, { .forwards = true, .maxSpeed = 65},false);
-  chassis.moveToPoint(-20, 2, 5000, { .forwards = false, .maxSpeed = 65},false);
-  chassis.moveToPoint(-33, 6, 5000, { .forwards = false, .maxSpeed = 40},false);
+  chassis.moveToPoint(-18, -2, 5000, { .forwards = false, .maxSpeed = 65},false);
+  pros::delay(500);
+  chassis.moveToPoint(-35, 8, 5000, { .forwards = false, .maxSpeed = 40},false);
   mogo.set_value(true);
   intake.move(-127);
   pros::delay(300);
@@ -337,7 +343,7 @@ void our_AWPB(){
   pros::delay(300);
   chassis.moveToPoint(-29, 20, 5000, { .forwards = true, .maxSpeed = 65},false);
   pros::delay(500);
-  chassis.moveToPoint(-41, 23, 5000, { .forwards = true, .maxSpeed = 65},false);
+  chassis.moveToPoint(-42, 23, 5000, { .forwards = true, .maxSpeed = 65},false);
   pros::delay(500);
   chassis.turnToHeading(-45.0, 1000);
   pros::delay(750);

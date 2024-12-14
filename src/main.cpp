@@ -13,6 +13,8 @@ pros::adi::DigitalOut mogo('E');
 pros::Optical color_sensor(1); 
 pros::adi::DigitalOut wall('D');
 pros::adi::DigitalOut jaw('A');
+pros::adi::DigitalOut boingo('C');
+
 
 // drivetrain settings
 lemlib::Drivetrain drivetrain(&left_motors, // left motor group
@@ -60,11 +62,15 @@ lemlib::Chassis chassis(drivetrain, // drivetrain settings
 );
 
 rd::Selector selector({
-   {"Left Red", &our_autonomous},
-   {"Skills", &our_skills},
-   {"RedRight", &our_redRight},
-   {"AWPRRRR", &our_AWPR},
-   {"AWPBBBB", &our_AWPB}
+  {"Red Rusha", &our_PlusRed},
+  {"Blue Rusha", &our_PlusBlue},
+  {"AWPRRRR", &our_AWPR},
+  {"AWPBBBB", &our_AWPB},
+  {"Skills", &our_skills},
+  {"Left Red", &our_autonomous},
+  {"RedRight", &our_redRight},
+
+   
    //{"Auton 1", &simple_auton},
    //{"Skills Run", &skills}
 });
@@ -245,37 +251,13 @@ void our_redRight(){
   wall.set_value(false);
   jaw.set_value(true);
 
-  chassis.moveToPoint(-6, -30, 5000, { .forwards = false, .maxSpeed = 40},false);
-  //pros::delay(100);
-  //chassis.moveToPoint(9, -41, 5000, { .forwards = false, .maxSpeed = 65},false);
+  chassis.moveToPoint(0, -37, 5000, { .forwards = false, .maxSpeed = 30},false);
   mogo.set_value(true);
+  pros::delay(100);
   chain.move(127);
-  pros::delay(300);
-  chain.move(0);
-
-  chassis.moveToPoint(-26, -35, 5000, { .maxSpeed = 65},false);
-
-  intake.move(-127);
-  pros::delay(1000);
-  intake.move(0);
-  chain.move(127);
-  pros::delay(1000);
-  chain.move(0);
-  mogo.set_value(false);
-
-  chassis.moveToPoint(-26, -45, 5000, { .forwards = false, .maxSpeed = 65},false);
-  //intake.move(-127);
-  //pros::delay(300);
-  //intake.move(0);
-  //chain.move(-127);
-  //pros::delay(300);
-  //chain.move(0);
-
-  //intake.move(-127);
-  //pros::delay(2000);
-  //intake.move(0);
-  //chassis.moveToPoint(15, 41, 5000, {.forwards = false, .maxSpeed = 40},false);
-
+  pros:: delay(1000);
+  chassis.moveToPoint(5, -50, 5000, { .forwards = false,  .maxSpeed = 40},false);
+  
 }
 void our_AWPR(){
   chassis.setPose(0, 0, 0);
@@ -283,11 +265,11 @@ void our_AWPR(){
   chassis.moveToPoint(0, -19, 5000, { .forwards = false, .maxSpeed = 65},false);
   chassis.turnToHeading( 90.0,  1000);
   //Turns and moves to the alliance stake
-  chassis.moveToPoint(-5.5, -16, 5000, { .forwards = false, .maxSpeed = 65},false);
+  chassis.moveToPoint(-5, -16, 5000, { .forwards = false, .maxSpeed = 65},false);
   //scores
   wall.set_value(true);
   chain.move(127);
-  pros::delay(500);
+  pros::delay(800);
   wall.set_value(false);
   jaw.set_value(true);
   chain.move(0);
@@ -306,18 +288,20 @@ void our_AWPR(){
   chain.move(127);
   pros::delay(300);
 //ring by wall
-  chassis.moveToPoint(30, 25, 5000, { .forwards = true, .maxSpeed = 65},false);
+  chassis.moveToPoint(30, 26, 5000, { .forwards = true, .maxSpeed = 90},false);
   pros::delay(500);
   
   //going to four corners stack
-  chassis.moveToPoint(40, 28, 5000, { .forwards = true, .maxSpeed = 55},false);
-  chassis.moveToPoint(43, 32, 5000, { .forwards = true, .maxSpeed = 55},false);
+  chassis.moveToPoint(42,34, 5000, { .forwards = true, .maxSpeed = 55},false);
+  chassis.moveToPoint(35, 27, 5000, { .forwards = true, .maxSpeed = 55},false);
+  chassis.moveToPoint(45, 26, 5000, { .forwards = true, .maxSpeed = 55},false);
+  //chassis.moveToPoint(43, 33, 5000, { .forwards = true, .maxSpeed = 55},false);
   pros::delay(500);
-  chassis.turnToHeading(45, 1000);
+  //chassis.turnToHeading(45, 1000);
   pros::delay(500);
 
   //touches ladder  
-  chassis.moveToPoint(13, -50, 5000, { .forwards = false, .maxSpeed = 50},false);
+  chassis.moveToPoint(18, -50, 5000, { .forwards = true, .maxSpeed = 50},false);
   //chain.move(0);
   //intake.move(0);
 }
@@ -328,7 +312,7 @@ void our_AWPB(){
   chassis.moveToPoint(4, -25, 5000, { .forwards = false, .maxSpeed = 65},false);
   wall.set_value(true);
   chain.move(127);
-  pros::delay(500);
+  pros::delay(800);
   wall.set_value(false);
   jaw.set_value(true);
   chain.move(0);
@@ -352,7 +336,66 @@ void our_AWPB(){
   intake.move(0);
 }
 
+void our_PlusRed(){
+  /*
+  chassis.setPose(0,0,0);
+  wall.set_value(true);
+  pros::delay(800);
+  wall.set_value(false);
+  jaw.set_value(true);
+  */
 
+  //goes to grab the goal
+  chassis.moveToPoint(2, 40, 3000, { .forwards = true, .maxSpeed = 65},false);
+   //piston down
+  boingo.set_value(true);
+  pros::delay(600);
+   //comes back with the goal
+  //chassis.moveToPoint(5, 3, 3000, { .forwards = true, .maxSpeed = 65},false);
+  chassis.moveToPoint(0, 5, 3000, { .forwards = false, .maxSpeed = 100},false);
+  boingo.set_value(false);
+  chassis.moveToPoint(-15, 30, 3000, { .forwards = false, .maxSpeed = 100},false);
+  mogo.set_value(true);
+  chain.move(127);
+  intake.move(127);
+
+}
+void our_PlusBlue(){
+  /*
+  chassis.setPose(0,0,0);
+  wall.set_value(true);
+  pros::delay(800);
+  wall.set_value(false);
+  jaw.set_value(true);
+  */
+
+  //goes to grab the goal
+   intake.move(-127);
+  chassis.moveToPoint(-12, 36, 1500, { .forwards = true, .maxSpeed = 65},false);
+    boingo.set_value(true);
+    pros::delay(300);
+     intake.move(0);
+ // chassis.turnToHeading(-90, 1000);
+   //comes back with the goal
+  //chassis.moveToPoint(5, 3, 3000, { .forwards = true, .maxSpeed = 65},false);
+  chassis.turnToHeading(180, 1000);
+  //chassis.moveToPoint(-10, 0, 3000, { .forwards = true, .maxSpeed = 100},false);
+   chassis.moveToPoint(0, 0, 3000, { .forwards = true, .maxSpeed = 100},false);
+  boingo.set_value(false);
+  chassis.turnToHeading(70, 1000);
+  chassis.moveToPoint(19, 24, 3000, { .forwards = false, .maxSpeed = 60},false);
+  //chassis.moveToPoint(16, 30, 3000, { .forwards = false, .maxSpeed = 50},false);
+  //pros::delay(1000);
+  mogo.set_value(true);
+  pros::delay(800);
+  //chassis.moveToPoint(15, 21, 3000, { .forwards = true, .maxSpeed = 60},false);
+  wall.set_value(true);
+  chain.move(127);
+  intake.move(-127);
+  pros::delay(1500);
+  chain.move(0);
+   chassis.moveToPoint(30, 29, 3000, { .forwards = false, .maxSpeed = 60},false);
+}
 /**
  * Runs the operator control code. This function will be started in its own task
  * with the default priority and stack size whenever the robot is enabled via
@@ -369,6 +412,7 @@ void our_AWPB(){
 bool piston_on = false; 
 bool wpiston_on = true; 
 bool jawon = true;
+bool doinking = false;
 
 void opcontrol() {
 	while (true){
@@ -383,10 +427,10 @@ void opcontrol() {
         // Adjust thresholds according to your specific sensor readings
         if (controller.get_digital_new_press(pros::E_CONTROLLER_DIGITAL_B)) {
           // Toggle pneumatic state
-          jawon = !jawon;
+          doinking = !doinking;
 
           // Set pneumatic based on state
-          jaw.set_value(jawon);
+          boingo.set_value(doinking);
         }
         if (controller.get_digital_new_press(pros::E_CONTROLLER_DIGITAL_Y)) {
           // Toggle pneumatic state

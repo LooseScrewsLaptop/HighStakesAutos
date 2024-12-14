@@ -346,16 +346,17 @@ void our_PlusRed(){
   */
 
   //goes to grab the goal
-  chassis.moveToPoint(2, 40, 3000, { .forwards = true, .maxSpeed = 65},false);
+  chassis.moveToPoint(1, 40, 3000, { .forwards = true, .maxSpeed = 65},false);
    //piston down
   boingo.set_value(true);
-  pros::delay(600);
+  pros::delay(300);
    //comes back with the goal
   //chassis.moveToPoint(5, 3, 3000, { .forwards = true, .maxSpeed = 65},false);
-  chassis.moveToPoint(0, 5, 3000, { .forwards = false, .maxSpeed = 100},false);
+  chassis.moveToPoint(0, 5, 3000, { .forwards = false, .maxSpeed = 60},false);
   boingo.set_value(false);
-  chassis.moveToPoint(-15, 30, 3000, { .forwards = false, .maxSpeed = 100},false);
+  chassis.moveToPoint(-15, 30, 3000, { .forwards = false, .maxSpeed = 60},false);
   mogo.set_value(true);
+  wall.set_value(true);
   chain.move(127);
   intake.move(127);
 
@@ -382,7 +383,7 @@ void our_PlusBlue(){
   //chassis.moveToPoint(-10, 0, 3000, { .forwards = true, .maxSpeed = 100},false);
    chassis.moveToPoint(0, 0, 3000, { .forwards = true, .maxSpeed = 100},false);
   boingo.set_value(false);
-  chassis.turnToHeading(70, 1000);
+  chassis.turnToHeading(90, 1000);
   chassis.moveToPoint(19, 24, 3000, { .forwards = false, .maxSpeed = 60},false);
   //chassis.moveToPoint(16, 30, 3000, { .forwards = false, .maxSpeed = 50},false);
   //pros::delay(1000);
@@ -393,8 +394,10 @@ void our_PlusBlue(){
   chain.move(127);
   intake.move(-127);
   pros::delay(1500);
+  //chain.move(0);
+   chassis.moveToPoint(35, 32, 3000, { .forwards = false, .maxSpeed = 60},false);
+   pros::delay(500);
   chain.move(0);
-   chassis.moveToPoint(30, 29, 3000, { .forwards = false, .maxSpeed = 60},false);
 }
 /**
  * Runs the operator control code. This function will be started in its own task

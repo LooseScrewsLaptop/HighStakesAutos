@@ -3,11 +3,11 @@
 #include "robodash/api.h"
 #include "autos.h"
 
-pros::MotorGroup left_motors({-20, -19, -18}); 
-pros::MotorGroup right_motors({11, 12, 13}); 
+pros::MotorGroup left_motors({10, -4, 20}); 
+pros::MotorGroup right_motors({-13, 12, -14}); 
 pros::Controller controller(pros::E_CONTROLLER_MASTER);
-pros::Motor intake(10);
-pros::Motor chain(9);
+pros::Motor intake(-11);
+pros::Motor chain(19);
 pros::adi::DigitalOut mogo('E');
 
 pros::Optical color_sensor(1); 
@@ -24,7 +24,7 @@ lemlib::Drivetrain drivetrain(&left_motors, // left motor group
                               600, // drivetrain rpm is 360
                               2 // horizontal drift is 2 (for now)
 );
-pros::Imu imu(17);
+pros::Imu imu(18);
 
 lemlib::OdomSensors sensors(nullptr, // vertical tracking wheel 1, set to null
                             nullptr, // vertical tracking wheel 2, set to nullptr as we are using IMEs
@@ -69,6 +69,8 @@ rd::Selector selector({
   {"Skills", &our_skills},
   {"Left Red", &our_autonomous},
   {"RedRight", &our_redRight},
+  {"League Bluto", &our_AWPBTakeTwo},
+  {"League Rudolf", &our_AWPRTakeTwo}
 
    
    //{"Auton 1", &simple_auton},
@@ -397,6 +399,75 @@ void our_PlusBlue(){
   //chain.move(0);
    chassis.moveToPoint(35, 32, 3000, { .forwards = false, .maxSpeed = 60},false);
    pros::delay(500);
+  chain.move(0);
+}
+void our_AWPBTakeTwo(){
+  chassis.setPose(0, 0, 0);
+  chassis.moveToPoint(0, -20, 5000, { .forwards = false, .maxSpeed = 65},false);
+  chassis.turnToHeading( -90.0,  1000);
+  chassis.moveToPoint(4, -25, 5000, { .forwards = false, .maxSpeed = 65},false);
+  wall.set_value(true);
+  chain.move(127);
+  pros::delay(800);
+  wall.set_value(false);
+  jaw.set_value(true);
+
+  chain.move(0);
+  chassis.moveToPoint(-5, -19, 5000, { .forwards = true, .maxSpeed = 65},false);
+  chassis.moveToPoint(-18, -2, 5000, { .forwards = false, .maxSpeed = 65},false);
+  pros::delay(500);
+  chassis.moveToPoint(-38, 3, 5000, { .forwards = false, .maxSpeed = 40},false);
+  mogo.set_value(true);
+
+  intake.move(-127);
+  pros::delay(300);
+  chain.move(127);
+  pros::delay(300);
+  chassis.moveToPoint(-32, 25, 5000, { .forwards = true, .maxSpeed = 65},false);
+  pros::delay(500);
+  chassis.moveToPoint(-46, 27, 5000, { .forwards = true, .maxSpeed = 65},false);
+  pros::delay(500);
+  chassis.moveToPoint(-30, 25, 5000, { .forwards = false, .maxSpeed = 65},false);
+  //chassis.turnToHeading(-45.0, 1000);
+  chassis.moveToPoint(-46, 23, 5000, { .forwards = true, .maxSpeed = 65},false);
+  pros::delay(750);
+  chassis.moveToPoint(-30, 25, 5000, { .forwards = false, .maxSpeed = 65},false);
+  chassis.moveToPoint(-10, -50, 3000, { .forwards = true, .maxSpeed = 65},false);
+  chain.move(0);
+  intake.move(0);
+}
+void our_AWPRTakeTwo(){
+  chassis.setPose(0, 0, 0);
+  chassis.moveToPoint(0, -20, 5000, { .forwards = false, .maxSpeed = 65},false);
+  chassis.turnToHeading( -90.0,  1000);
+  chassis.moveToPoint(-4, -25, 5000, { .forwards = false, .maxSpeed = 65},false);
+  wall.set_value(true);
+  chain.move(127);
+  pros::delay(800);
+  wall.set_value(false);
+  jaw.set_value(true);
+
+  chain.move(0);
+  chassis.moveToPoint(5, -19, 5000, { .forwards = true, .maxSpeed = 65},false);
+  chassis.moveToPoint(18, -2, 5000, { .forwards = false, .maxSpeed = 65},false);
+  pros::delay(500);
+  chassis.moveToPoint(38, 3, 5000, { .forwards = false, .maxSpeed = 40},false);
+  mogo.set_value(true);
+
+  intake.move(-127);
+  pros::delay(300);
+  chain.move(127);
+  pros::delay(300);
+  chassis.moveToPoint(32, 25, 5000, { .forwards = true, .maxSpeed = 65},false);
+  pros::delay(500);
+  chassis.moveToPoint(46, 27, 5000, { .forwards = true, .maxSpeed = 65},false);
+  pros::delay(500);
+  chassis.moveToPoint(30, 25, 5000, { .forwards = false, .maxSpeed = 65},false);
+  //chassis.turnToHeading(-45.0, 1000);
+  chassis.moveToPoint(46, 23, 5000, { .forwards = true, .maxSpeed = 65},false);
+  pros::delay(750);
+  chassis.moveToPoint(30, 25, 5000, { .forwards = false, .maxSpeed = 65},false);
+  chassis.moveToPoint(10, -50, 3000, { .forwards = true, .maxSpeed = 65},false);
   chain.move(0);
 }
 /**

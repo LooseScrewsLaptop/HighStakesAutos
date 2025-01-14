@@ -5,3 +5,5 @@ void our_AWPR();
 void our_AWPB();
 void our_PlusRed();
 void our_PlusBlue();
+void our_AWPBTakeTwo();
+void our_AWPRTakeTwo();

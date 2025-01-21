@@ -1,18 +1,22 @@
 #include "main.h"
 #include "lemlib/api.hpp" // IWYU pragma: keep
+#include "pros/misc.h"
+#include "pros/rotation.hpp"
 #include "robodash/api.h"
 #include "autos.h"
-
-pros::MotorGroup left_motors({10, -4, 20}); 
-pros::MotorGroup right_motors({-13, 12, -14}); 
+//fix front  wires
+pros::MotorGroup left_motors({10, -9, 1}); 
+pros::MotorGroup right_motors({-20, 19, -18}); 
 pros::Controller controller(pros::E_CONTROLLER_MASTER);
-pros::Motor intake(-11);
-pros::Motor chain(19);
-pros::adi::DigitalOut mogo('E');
-
+pros::Motor intake(-17);
+pros::Motor chain(2);
+pros::Rotation rotation_sensor(16);
 pros::Optical color_sensor(1); 
+pros::Motor ladyBrown(11);
+
+pros::adi::DigitalOut mogo('E');
 pros::adi::DigitalOut wall('D');
-pros::adi::DigitalOut jaw('A');
+pros::adi::DigitalOut jaw('B');
 pros::adi::DigitalOut boingo('C');
 
 
@@ -348,19 +352,24 @@ void our_PlusRed(){
   */
 
   //goes to grab the goal
-  chassis.moveToPoint(1, 40, 3000, { .forwards = true, .maxSpeed = 65},false);
+  chassis.moveToPoint(14, 43, 3000, { .forwards = true, .maxSpeed = 65},true);
    //piston down
+  intake.move(-127);
+  pros::delay(1300);
+  intake.move(0);
   boingo.set_value(true);
-  pros::delay(300);
+  pros::delay(400);
+  pros::delay(500);
    //comes back with the goal
   //chassis.moveToPoint(5, 3, 3000, { .forwards = true, .maxSpeed = 65},false);
-  chassis.moveToPoint(0, 5, 3000, { .forwards = false, .maxSpeed = 60},false);
+  chassis.moveToPoint(0, 3, 3000, { .forwards = false, .maxSpeed = 60},false);
   boingo.set_value(false);
-  chassis.moveToPoint(-15, 30, 3000, { .forwards = false, .maxSpeed = 60},false);
+  chassis.moveToPoint(-9, 30, 3000, { .forwards = false, .maxSpeed = 60},false);
+  pros::delay(100);
   mogo.set_value(true);
   wall.set_value(true);
   chain.move(127);
-  intake.move(127);
+  intake.move(-127);
 
 }
 void our_PlusBlue(){
@@ -373,33 +382,26 @@ void our_PlusBlue(){
   */
 
   //goes to grab the goal
-   intake.move(-127);
-  chassis.moveToPoint(-12, 36, 1500, { .forwards = true, .maxSpeed = 65},false);
+   //intake.move(-127);
+  chassis.moveToPoint(-1, 40, 1500, { .forwards = true, .maxSpeed = 65},false);
     boingo.set_value(true);
     pros::delay(300);
-     intake.move(0);
+    // intake.move(0);
  // chassis.turnToHeading(-90, 1000);
    //comes back with the goal
   //chassis.moveToPoint(5, 3, 3000, { .forwards = true, .maxSpeed = 65},false);
-  chassis.turnToHeading(180, 1000);
+  chassis.turnToHeading(200, 1000);
   //chassis.moveToPoint(-10, 0, 3000, { .forwards = true, .maxSpeed = 100},false);
    chassis.moveToPoint(0, 0, 3000, { .forwards = true, .maxSpeed = 100},false);
   boingo.set_value(false);
-  chassis.turnToHeading(90, 1000);
-  chassis.moveToPoint(19, 24, 3000, { .forwards = false, .maxSpeed = 60},false);
+  //chassis.turnToHeading(90, 1000);
+  chassis.moveToPoint(12, 33, 3000, { .forwards = false, .maxSpeed = 60},false);
   //chassis.moveToPoint(16, 30, 3000, { .forwards = false, .maxSpeed = 50},false);
   //pros::delay(1000);
   mogo.set_value(true);
   pros::delay(800);
-  //chassis.moveToPoint(15, 21, 3000, { .forwards = true, .maxSpeed = 60},false);
-  wall.set_value(true);
   chain.move(127);
   intake.move(-127);
-  pros::delay(1500);
-  //chain.move(0);
-   chassis.moveToPoint(35, 32, 3000, { .forwards = false, .maxSpeed = 60},false);
-   pros::delay(500);
-  chain.move(0);
 }
 void our_AWPBTakeTwo(){
   chassis.setPose(0, 0, 0);
@@ -439,19 +441,19 @@ void our_AWPBTakeTwo(){
 void our_AWPRTakeTwo(){
   chassis.setPose(0, 0, 0);
   chassis.moveToPoint(0, -20, 5000, { .forwards = false, .maxSpeed = 65},false);
-  chassis.turnToHeading( -90.0,  1000);
-  chassis.moveToPoint(-4, -25, 5000, { .forwards = false, .maxSpeed = 65},false);
+  chassis.turnToHeading( 90.0,  1000);
+  chassis.moveToPoint(-6.25, -25, 5000, { .forwards = false, .maxSpeed = 65},false);
   wall.set_value(true);
-  chain.move(127);
+  //chain.move(127);
   pros::delay(800);
   wall.set_value(false);
   jaw.set_value(true);
 
-  chain.move(0);
+  //chain.move(0);
   chassis.moveToPoint(5, -19, 5000, { .forwards = true, .maxSpeed = 65},false);
   chassis.moveToPoint(18, -2, 5000, { .forwards = false, .maxSpeed = 65},false);
   pros::delay(500);
-  chassis.moveToPoint(38, 3, 5000, { .forwards = false, .maxSpeed = 40},false);
+  chassis.moveToPoint(38, 6, 5000, { .forwards = false, .maxSpeed = 40},false);
   mogo.set_value(true);
 
   intake.move(-127);
@@ -460,11 +462,11 @@ void our_AWPRTakeTwo(){
   pros::delay(300);
   chassis.moveToPoint(32, 25, 5000, { .forwards = true, .maxSpeed = 65},false);
   pros::delay(500);
-  chassis.moveToPoint(46, 27, 5000, { .forwards = true, .maxSpeed = 65},false);
+  chassis.moveToPoint(44, 33, 5000, { .forwards = true, .maxSpeed = 65},false);
   pros::delay(500);
   chassis.moveToPoint(30, 25, 5000, { .forwards = false, .maxSpeed = 65},false);
   //chassis.turnToHeading(-45.0, 1000);
-  chassis.moveToPoint(46, 23, 5000, { .forwards = true, .maxSpeed = 65},false);
+  chassis.moveToPoint(44, 27, 5000, { .forwards = true, .maxSpeed = 65},false);
   pros::delay(750);
   chassis.moveToPoint(30, 25, 5000, { .forwards = false, .maxSpeed = 65},false);
   chassis.moveToPoint(10, -50, 3000, { .forwards = true, .maxSpeed = 65},false);
@@ -490,14 +492,10 @@ bool doinking = false;
 
 void opcontrol() {
 	while (true){
+    rotation_sensor.set_position(0);
 		int leftY = controller.get_analog(pros::E_CONTROLLER_ANALOG_LEFT_Y);
 		int rightY = controller.get_analog(pros::E_CONTROLLER_ANALOG_RIGHT_Y);
 		chassis.tank(leftY,rightY);
-
-        pros::c::optical_rgb_s_t rgb = color_sensor.get_rgb();
-        int red = rgb.red;
-        int blue = rgb.blue;
-        color_sensor.set_led_pwm(70);
         // Adjust thresholds according to your specific sensor readings
         if (controller.get_digital_new_press(pros::E_CONTROLLER_DIGITAL_B)) {
           // Toggle pneumatic state
@@ -508,10 +506,10 @@ void opcontrol() {
         }
         if (controller.get_digital_new_press(pros::E_CONTROLLER_DIGITAL_Y)) {
           // Toggle pneumatic state
-          jawon = !jawon;
+          doinking = !doinking;
 
           // Set pneumatic based on state
-          jaw.set_value(jawon);
+          boingo.set_value(doinking);
         }
 
         
@@ -521,10 +519,10 @@ void opcontrol() {
 		if (controller.get_digital(pros::E_CONTROLLER_DIGITAL_L1) ) {
 		chain.move(127); 
 		intake.move(-127);
-		if (controller.get_digital(pros::E_CONTROLLER_DIGITAL_R1)){
-			chain.move(45); 
-			intake.move(-127);
-		}
+		//if (controller.get_digital(pros::E_CONTROLLER_DIGITAL_R1)){
+			//chain.move(45); 
+			//intake.move(-127);
+		//}
 		}
 		else if (controller.get_digital(pros::E_CONTROLLER_DIGITAL_L2)) {
 		chain.move(-127);
@@ -534,6 +532,16 @@ void opcontrol() {
 		chain.move(0);
 		intake.move(0);
 		}
+    if (controller.get_digital(pros::E_CONTROLLER_DIGITAL_R1)){
+      
+      if (rotation_sensor.get_angle() < 14000){
+        ladyBrown.move(30);
+         }else{
+          ladyBrown.move(0);
+         }
+    }else{
+      ladyBrown.move(0);
+    }
 
 		//MOGO
 		if (controller.get_digital_new_press(pros::E_CONTROLLER_DIGITAL_RIGHT)) {

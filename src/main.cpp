@@ -92,6 +92,11 @@ void initialize() {
    console.println("Initializing robot...");
    // Robot stuff would happen...
   chassis.calibrate();
+  pros::Task liftControlTask([]{
+  while(true){
+    liftControl();
+    pros::delay(20);
+  }})
   }
 
 /**
@@ -490,12 +495,51 @@ bool wpiston_on = true;
 bool jawon = true;
 bool doinking = false;
 
+
+
+const int numPos = 4;
+int positions[numPos] = {0, 3000, 14000, 27000};
+//this is a comment, make sure that the degree values are in centi degrees
+//which is degrree meausre x 100;
+int currPos = 0; 
+int target = 0; 
+
+void nextState(){
+  currPos += 1;
+  if (currPos == 3){
+    currPos = 0; 
+  }
+  target = states[currPos];
+}
+void liftControl(){
+  double kp = 0.5
+  double err = target - rotiation_sensor.get_postition();
+  double speed = kp * err;  
+  ladyBrown.move(speed);
+}
+
+
+
+//the following has to be in the opcontrol() and then inside of
+//the while loop
+
+
+
 void opcontrol() {
 	while (true){
     rotation_sensor.set_position(0);
 		int leftY = controller.get_analog(pros::E_CONTROLLER_ANALOG_LEFT_Y);
 		int rightY = controller.get_analog(pros::E_CONTROLLER_ANALOG_RIGHT_Y);
 		chassis.tank(leftY,rightY);
+<<<<<<< Updated upstream
+=======
+
+
+        pros::c::optical_rgb_s_t rgb = color_sensor.get_rgb();
+        int red = rgb.red;
+        int blue = rgb.blue;
+        color_sensor.set_led_pwm(70);
+>>>>>>> Stashed changes
         // Adjust thresholds according to your specific sensor readings
         if (controller.get_digital_new_press(pros::E_CONTROLLER_DIGITAL_B)) {
           // Toggle pneumatic state
@@ -511,6 +555,12 @@ void opcontrol() {
           // Set pneumatic based on state
           boingo.set_value(doinking);
         }
+        if(master.get_digital_new_press(pros::E_CONTROLLER_DIGITAL_R1)){
+
+          nextState();
+        
+        }
+    
 
         
 
